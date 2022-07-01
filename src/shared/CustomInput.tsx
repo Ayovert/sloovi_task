@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Form } from "react-bootstrap";
 import { Control, Controller, FieldValues, useController, UseControllerProps } from "react-hook-form";
 import { getTime } from "./util";
@@ -12,7 +13,8 @@ interface Props extends UseControllerProps{
 
 export default function CustomInput(props:Props){
     const {field, fieldState } = useController({ ...props, defaultValue: "" });
-  
+
+    const [name , setName] = useState(props.options && props.options.length > 0 ?props.options[0].name : "");
     return(
         <>
         <Form.Group className={`mb-3`} controlId={props.name}>
@@ -22,7 +24,7 @@ export default function CustomInput(props:Props){
                     <Controller
                     control={props.control}
                     name={props.name}
-                    defaultValue={props.defaultValue}
+                    defaultValue={props.options && props.options.length > 0 ?props.options[0].name : ""}
                     render={({ field }) => (
                       
                       <Form.Select
@@ -31,8 +33,9 @@ export default function CustomInput(props:Props){
                         placeholder={props.placeholder}
                       >
                         {props.options && props.options.length > 0 && props.options.map((item) => {
+                          console.log(field);
                           return(
-                            <option key={item.name}>{item.name}</option>
+                            <option key={item.name} value={item.name}>{item.name}</option>
                           );
                         } )}
                         

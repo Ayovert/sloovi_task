@@ -11,7 +11,7 @@ interface Props{
 }
 export default function TaskList({openForm}:Props) {
 
-  const {tasks, users} = useAppSelector((state) => state.task);
+  const {tasks} = useAppSelector((state) => state.task);
 
 
 
@@ -20,7 +20,6 @@ export default function TaskList({openForm}:Props) {
   return (
     <Row>
       {tasks?.map((item) => {
-        console.log(item.assigned_user);
         return(
           <div className="border bg-white" key={item.id}>
         <Row className="">

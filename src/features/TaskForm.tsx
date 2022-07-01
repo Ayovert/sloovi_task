@@ -19,10 +19,12 @@ export default function TaskForm({ task }: Props) {
     control,
     reset,
     handleSubmit,
+    setValue,
+    register,
     watch,
     formState: { isDirty, isSubmitting },
   } = useForm({
-    mode: "all",
+    mode: "all"
     // resolver: yupResolver(validationSchema),
   });
 
@@ -37,10 +39,13 @@ export default function TaskForm({ task }: Props) {
       console.log("reset");
       reset();
     };
-  }, [reset, task]);
+
+    setValue("assigned_user" , users[0]?.name);
+  }, [reset, task, setValue, users]);
 
   async function submitTask(data: FieldValues) {
     const taskData  = data as Task;
+    console.log(taskData);
     try {
       if(task){
         await agent.Task.updateTask(taskData , task.id).then((response) => {
@@ -103,12 +108,12 @@ export default function TaskForm({ task }: Props) {
         <CustomInput
           control={control}
           name="assigned_user"
-          defaultValue=""
           placeholder="Assign User"
           label="Assign User"
           type="select"
           options={users}
         />
+
         <FormGroup className="d-none">
           <Controller
             control={control}
@@ -123,7 +128,21 @@ export default function TaskForm({ task }: Props) {
               />
             )}
           />
+          <Controller
+            control={control}
+            name="is_completed"
+            defaultValue={0}
+            render={({ field }) => (
+              <Form.Control
+                type="number"
+                {...field}
+                value={0}
+                placeholder="Is Completed"
+              />
+            )}
+          />
         </FormGroup>
+      
 
         <Row className="my-3 mx-3">
           <Col xs={4} lg={6}></Col>
