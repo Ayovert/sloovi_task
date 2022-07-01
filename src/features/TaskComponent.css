@@ -1,0 +1,20 @@
+.TaskCard{
+    background-color: #c8e3e7;
+    padding: 10px 0;
+}
+.TaskCollapse{
+    width: 100%;
+}
+.row{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.react-time-picker__wrapper{
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #ced4da !important;
+    color: #212529;
+    border-radius:5px;
+}
