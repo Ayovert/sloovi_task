@@ -8,13 +8,16 @@ import { useAppDispatch, useAppSelector } from "../shared/redux/store";
 import { formatDate, getTime } from "../shared/util";
 import { fetchTasksAsync } from "./taskSlice";
 import TimePicker from "react-time-picker";
+import { ReactComponent as DeleteIcon } from "../features/assets/delete.svg";
 
 
 interface Props {
   task?: Task;
+  closeForm:() => void; 
 }
-export default function TaskForm({ task }: Props) {
+export default function TaskForm({ task, closeForm }: Props) {
   const { users } = useAppSelector((state) => state.task);
+  const dispatch = useAppDispatch();
   const {
     control,
     reset,
@@ -34,14 +37,30 @@ export default function TaskForm({ task }: Props) {
     if (task !== undefined) {
       reset(task);
       setTime(getTime(task.task_time));
-      console.log("set all");
+
     }else{
-      console.log("reset");
-      reset();
+      reset({task:undefined});
     };
 
     setValue("assigned_user" , users[0]?.name);
   }, [reset, task, setValue, users]);
+
+
+
+  function handleDeleteTask(){
+   if(task){
+      agent.Task.deleteTask(task.id)
+      .then((response) => {
+        
+        reset({task: undefined});
+        closeForm();
+        dispatch(fetchTasksAsync());
+      })
+      .catch((error) => {
+          console.log(error)
+      })
+    }
+}
 
   async function submitTask(data: FieldValues) {
     const taskData  = data as Task;
@@ -49,13 +68,18 @@ export default function TaskForm({ task }: Props) {
     try {
       if(task){
         await agent.Task.updateTask(taskData , task.id).then((response) => {
-          console.log(response);
+          reset();
+          closeForm();
         });
       }else{
         await agent.Task.addTask(taskData).then((response) => {
-          console.log(response);
+          reset();
+          closeForm();
         });
       }
+
+      dispatch(fetchTasksAsync());
+
     } catch (error: any) {
       console.log(error);
     }
@@ -145,8 +169,15 @@ export default function TaskForm({ task }: Props) {
       
 
         <Row className="my-3 mx-3">
-          <Col xs={4} lg={6}></Col>
-          <Col xs={2} lg={1} className="p-0">
+          {task && <Col className="pointer" onClick={() => handleDeleteTask()}>
+          <DeleteIcon/>
+          </Col> }
+          <Col xs={2} lg={4}>
+            
+          </Col>
+          <Col xs={2} lg={1} className="p-0 pointer"
+          onClick={()=>{closeForm()}}
+          >
             <span className="">Cancel</span>
           </Col>
           {task ? (
@@ -154,7 +185,7 @@ export default function TaskForm({ task }: Props) {
               <Button variant="success" type="submit">
                 Update
               </Button>
-            </Col>
+            </Col> 
           ) : (
             <Col xs={3} lg={3}>
               <Button variant="success" type="submit">

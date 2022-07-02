@@ -29,32 +29,34 @@ export default function TaskComponent() {
   const [selectedTask, setSelectedTask] = useState<Task>();
 
   const dispatch = useAppDispatch();
-  const { tasks, users } = useAppSelector((state) => state.task);
+  const { tasks } = useAppSelector((state) => state.task);
 
-  console.log(users);
   useEffect(() => {
-    dispatch(fetchTasksAsync()).then((response) => {
-      console.log(response);
-    });
+    dispatch(fetchTasksAsync());
 
-    dispatch(fetchUsersAsync()).then((response) => {
-      console.log(response);
-    });
+    dispatch(fetchUsersAsync());
   }, [dispatch]);
 
   function openForm(task?: Task) {
     if (task) {
       setSelectedTask(task);
+    }else{
+      setSelectedTask(undefined);
     }
 
-    setOpen(!open);
+    setOpen(true);
   }
 
   function newForm() {
-    console.log("new");
     setSelectedTask(undefined);
 
-    setOpen(!open);
+    setOpen(true);
+  }
+
+  function closeForm(){
+    setSelectedTask(undefined);
+
+    setOpen(false); 
   }
 
   return (
@@ -64,13 +66,11 @@ export default function TaskComponent() {
           <Col xs={11}>TASKS {tasks.length}</Col>
           <Col
             xs={1}
-            onClick={() => newForm()}
+            onClick={() => openForm()}
             aria-controls="task-dropdown"
             aria-expanded={open}
-            style={{
-              cursor: "pointer",
-            }}
-            className="border-start border-left-3 d-flex justify-content-center text-center"
+           
+            className="border-start border-left-3 d-flex justify-content-center text-center pointer"
           >
             <span className="text-center">+</span>
           </Col>
@@ -79,7 +79,7 @@ export default function TaskComponent() {
         <Collapse in={open} className="TaskCollapse">
           <div id="task-dropdown">
             <Row className="TaskCard">
-              <TaskForm task={selectedTask} />
+              <TaskForm task={selectedTask} closeForm={closeForm} />
             </Row>
           </div>
         </Collapse>

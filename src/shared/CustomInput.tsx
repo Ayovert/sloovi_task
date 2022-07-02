@@ -33,7 +33,6 @@ export default function CustomInput(props:Props){
                         placeholder={props.placeholder}
                       >
                         {props.options && props.options.length > 0 && props.options.map((item) => {
-                          console.log(field);
                           return(
                             <option key={item.name} value={item.name}>{item.name}</option>
                           );
@@ -48,11 +47,13 @@ export default function CustomInput(props:Props){
                     control={props.control}
                     name={props.name}
                     defaultValue={props.defaultValue}
+                   
                     render={({ field }) => (
                       <Form.Control
                         type={props.type? props.type : "text"}
                         {...field}
                        value= {props.type === "time" ? getTime(field.value) : field.value}
+                       required={true}
                         isInvalid={!!fieldState.error}
                         placeholder={props.placeholder}
                       />

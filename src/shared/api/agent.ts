@@ -55,7 +55,7 @@ const Task = {
     addTask : (values: any) => requests.post(`https://stage.api.sloovi.com/task/lead_465c14d0e99e4972b6b21ffecf3dd691?company_id=${companyId}`, values),
     updateTask: (values: any, taskId:string) => requests.put(`https://stage.api.sloovi.com/task/lead_465c14d0e99e4972b6b21ffecf3dd691/${taskId}?company_id=${companyId}`, values),
     getTasks:() => requests.get(`https://stage.api.sloovi.com/task/lead_465c14d0e99e4972b6b21ffecf3dd691?company_id=${companyId}`),
-    deleteTask: (taskId: number) => requests.delete(`https://stage.api.sloovi.com/task/lead_465c14d0e99e4972b6b21ffecf3dd691/task_id=${taskId}?company_id=${companyId}`),
+    deleteTask: (taskId: string) => requests.delete(`https://stage.api.sloovi.com/task/lead_465c14d0e99e4972b6b21ffecf3dd691/${taskId}?company_id=${companyId}`),
     getUsers:() => requests.get(`https://stage.api.sloovi.com/team?product=outreach&company_id=${companyId}`)
 }
 
