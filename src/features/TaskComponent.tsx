@@ -1,23 +1,10 @@
 import { useEffect, useState } from "react";
 import "./TaskComponent.css";
 import {
-  Button,
-  Card,
   Col,
   Collapse,
-  Container,
-  Form,
   Row,
 } from "react-bootstrap";
-import {
-  Controller,
-  FieldValues,
-  useForm,
-  useFormContext,
-} from "react-hook-form";
-import { agent } from "../shared/api/agent";
-import DatePicker from "react-date-picker";
-import { formatDate } from "../shared/util";
 import TaskList from "./TaskList";
 import TaskForm from "./TaskForm";
 import { useAppDispatch, useAppSelector } from "../shared/redux/store";
@@ -29,13 +16,31 @@ export default function TaskComponent() {
   const [selectedTask, setSelectedTask] = useState<Task>();
 
   const dispatch = useAppDispatch();
-  const { tasks } = useAppSelector((state) => state.task);
+  const { tasks, users } = useAppSelector((state) => state.task);
+  console.log(tasks);
+  console.log(users);
+
 
   useEffect(() => {
-    dispatch(fetchTasksAsync());
+    if(!tasks || tasks.length < 1){
+      dispatch(fetchTasksAsync());
+    }
+   
 
-    dispatch(fetchUsersAsync());
-  }, [dispatch]);
+    
+  }, [dispatch, tasks]);
+
+
+  useEffect(() => {
+  
+    if(!users || users.length < 1){
+      dispatch(fetchUsersAsync());
+    }
+
+    
+  }, [dispatch, users]);
+
+
 
   function openForm(task?: Task) {
     if (task) {
@@ -47,11 +52,6 @@ export default function TaskComponent() {
     setOpen(true);
   }
 
-  function newForm() {
-    setSelectedTask(undefined);
-
-    setOpen(true);
-  }
 
   function closeForm(){
     setSelectedTask(undefined);
@@ -62,8 +62,9 @@ export default function TaskComponent() {
   return (
     <Row>
       <Col xs={6}>
-        <Row className="border p-2">
-          <Col xs={11}>TASKS {tasks.length}</Col>
+        <Row className="border">
+          <Col xs={11}><span className="mx-2">TASKS</span> <span>{tasks.length}</span> </Col>
+          
           <Col
             xs={1}
             onClick={() => openForm()}
@@ -72,7 +73,7 @@ export default function TaskComponent() {
            
             className="border-start border-left-3 d-flex justify-content-center text-center pointer"
           >
-            <span className="text-center">+</span>
+            <span className="text-center fs-5 ">+</span>
           </Col>
         </Row>
 

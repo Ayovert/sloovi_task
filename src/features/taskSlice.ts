@@ -26,7 +26,7 @@ export const fetchTasksAsync = createAsyncThunk<Task[], void, {state:RootState}>
         try{
             const response = await agent.Task.getTasks();
 
-            return response.results;
+            return response.results as Task[];
         }catch(error : any){
             console.log(error);
             return thunkAPI.rejectWithValue({error: error.data});
@@ -42,7 +42,7 @@ export const fetchUsersAsync = createAsyncThunk<User[], void, {state:RootState}>
         try{
             const response = await agent.Task.getUsers();
 
-            return response.results.data;
+            return response.results.data as User[];
         }catch(error : any){
             console.log(error);
             return thunkAPI.rejectWithValue({error: error.data});

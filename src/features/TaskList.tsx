@@ -13,9 +13,7 @@ export default function TaskList({openForm}:Props) {
 
   const {tasks , users} = useAppSelector((state) => state.task);
 
-  console.log(tasks);
-
-const img = "https://images.unsplash.com/photo-1645378999013-95abebf5f3c1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80";
+/*const img = "https://images.unsplash.com/photo-1645378999013-95abebf5f3c1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80";*/
 
 
 
@@ -23,7 +21,7 @@ const img = "https://images.unsplash.com/photo-1645378999013-95abebf5f3c1?ixlib=
 
   return (
     <Row>
-      {tasks?.map((item, index) => {
+      {tasks?.map((item) => {
         const user = users.find((user) => user.user_id === item.user_id );
         return(
           <div className="border bg-white" key={item.id}>

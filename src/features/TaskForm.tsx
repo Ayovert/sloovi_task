@@ -5,7 +5,7 @@ import { agent } from "../shared/api/agent";
 import CustomInput from "../shared/CustomInput";
 import { Task } from "../shared/model/task";
 import { useAppDispatch, useAppSelector } from "../shared/redux/store";
-import { formatDate, getTime } from "../shared/util";
+import { formatDate, getTime, mapTaskRequest } from "../shared/util";
 import { fetchTasksAsync } from "./taskSlice";
 import TimePicker from "react-time-picker";
 import { ReactComponent as DeleteIcon } from "../features/assets/delete.svg";
@@ -48,7 +48,7 @@ export default function TaskForm({ task, closeForm }: Props) {
 
 
   function handleDeleteTask(){
-   if(task){
+   if(task && task.id){
       agent.Task.deleteTask(task.id)
       .then((response) => {
         
@@ -63,16 +63,18 @@ export default function TaskForm({ task, closeForm }: Props) {
 }
 
   async function submitTask(data: FieldValues) {
-    const taskData  = data as Task;
-    console.log(taskData);
+    const taskData   = data as Task;
+    const request = mapTaskRequest(taskData);
     try {
-      if(task){
-        await agent.Task.updateTask(taskData , task.id).then((response) => {
+      if(task && task.id){
+        await agent.Task.updateTask(request , task.id).then((response) => {
+          console.log(response);
           reset();
           closeForm();
         });
       }else{
-        await agent.Task.addTask(taskData).then((response) => {
+        await agent.Task.addTask(request).then((response) => {
+          console.log(response);
           reset();
           closeForm();
         });
