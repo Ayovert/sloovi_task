@@ -49,7 +49,7 @@ export default function TaskComponent() {
       setSelectedTask(undefined);
     }
 
-    setOpen(true);
+    setOpen(!open);
   }
 
 
