@@ -109,15 +109,9 @@ export default function TaskForm({ task, closeForm }: Props) {
               type="date"
             />
           </Col>
-          <Col xs={6} className="p-0">
-           {/* <CustomInput
-              control={control}
-              name="task_time"
-              defaultValue="15:00"
-              placeholder="Time"
-              label="Time"
-              type="time"
-  />*/}
+          <Col></Col>
+          <Col xs={5} className="m-2 d-flex flex-column">
+          
   <label className="mb-2">Time</label>
             <TimePicker
             className="mb-3"
@@ -127,6 +121,7 @@ export default function TaskForm({ task, closeForm }: Props) {
             />
         
           </Col>
+          
 
           
         </Row>
@@ -170,26 +165,27 @@ export default function TaskForm({ task, closeForm }: Props) {
         </FormGroup>
       
 
-        <Row className="my-3 mx-3">
-          {task && <Col className="pointer" onClick={() => handleDeleteTask()}>
+        <Row className="my-3 w-100">
+          {task && <Col xs={1} className="pointer" onClick={() => handleDeleteTask()}>
           <DeleteIcon/>
           </Col> }
-          <Col xs={2} lg={4}>
-            
-          </Col>
+
+          <Col xs={8}></Col>
+
+         
           <Col xs={2} lg={1} className="p-0 pointer"
           onClick={()=>{closeForm()}}
           >
             <span className="">Cancel</span>
           </Col>
           {task ? (
-            <Col xs={3} lg={3}>
+            <Col xs={3} lg={2}>
               <Button variant="success" type="submit">
                 Update
               </Button>
             </Col> 
           ) : (
-            <Col xs={3} lg={3}>
+            <Col xs={3} lg={1}>
               <Button variant="success" type="submit">
                 Save
               </Button>
