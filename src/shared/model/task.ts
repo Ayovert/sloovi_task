@@ -6,9 +6,11 @@ export interface Task{
     time_zone: number;
     is_completed: boolean;
     task_msg: string;
+    user_id: string;
 }
 
 export interface User{
     name: string;
     icon: string;
+    user_id: string;
 }
